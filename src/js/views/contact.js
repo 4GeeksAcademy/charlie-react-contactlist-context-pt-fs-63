@@ -8,10 +8,7 @@ const Contact = () => {
 
     const { store, actions } = useContext(Context)
     const navigate = useNavigate()
-    const params = useParams()
     const { username } = useParams()
-    const [contactList, setContactList] = useState([])
-
 
     const handleDeleteAgenda = (slug) => {
         actions.deleteSlugAgenda(slug)
@@ -19,23 +16,22 @@ const Contact = () => {
         navigate("/")
     }
 
-    const getAllContacts = (username) => {
-
-    }
-
-    //console.log(contactList)
-
     useEffect(() => {
         actions.getSlugAgenda(username)
         actions.getContacts(username)
     }, [])
 
+    //console.log(store.contacts)
     return (
 
         <div>
             {username}
             <button onClick={() => handleDeleteAgenda(username)} className="btn btn-danger">Delete Agenda</button>
-            { }
+            <ul>
+                {store.contacts?.map(el => (
+                    <li key={el.id}>{el.name} {el.adress} {el.phone} {el.email}</li>
+                ))}
+            </ul>
         </div>
     )
 }

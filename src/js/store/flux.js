@@ -19,6 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
+			///////////////////////////////////////////////////////
 			getAllAgendas: async () => {
 				const agendasReq = await fetch(`https://playground.4geeks.com/contact/agendas`, {
 					headers: {
@@ -26,9 +27,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				});
 				const agendasJson = await agendasReq.json(); // Parse the JSON response
-				setStore({ agendas: agendasJson }); // Set the store with the parsed JSON
+				setStore({ agendas: agendasJson.agendas }); // Set the store with the parsed JSON
 
-				console.log(getStore());
+				// console.log(getStore());
 				return agendasJson
 			},
 			getSlugAgenda: async (slug) => {
@@ -48,13 +49,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: {
 						"Content-Type": "application/json"
 					}
-				}).then(res => {
-					if (!res.ok) {
-						alert("Something Went Wrong")
-					}
 				})
+				if (!createSlugReq) {
+					alert("Something Went Wrong")
+				}
 				const createSlugJson = await createSlugReq.json()
-				setStore({ ...agendas, slug: createSlugJson })
+				setStore({ ...getStore().agendas, slug: createSlugJson })
 				getActions().getAllAgendas()
 				return createSlugJson
 			},
@@ -64,29 +64,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: {
 						"Content-Type": "application/json"
 					}
-				}).then(res => {
-					if (!res.ok) {
-						alert("Something Went Wrong")
-					}
 				});
+				if (!deleteSlugReq) {
+					alert("Something Went Wrong")
+				};
 				const deleteSlugJson = await deleteSlugReq.json()
-				setStore({ ...agendas, slug: deleteSlugJson })
+				setStore({ ...getStore().agendas, slug: deleteSlugJson })
 			},
+			///////////////////////////////////////////////////////
 			getContacts: async (slug) => {
-				const getContactsReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}/contacts`,{
+				const getContactsReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}/contacts`, {
 					headers: {
 						"Content-Type": "application/json"
 					}
-				}).then(res => {
-					if (!res.ok) {
-						alert("Something Went Wrong")
-					}
-				});
+				})
+				if (!getContactsReq.ok) {
+					alert("Something Went Wrong")
+				};
 				const getContactsJson = await getContactsReq.json()
-				setStore({ ...agendas, contacts: getContactsJson})
+				setStore({ ...getStore().agendas, contacts: getContactsJson.contacts })
 			},
 			createContact: async (slug) => {
-				const createContactReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}/contacts`,{
+				const createContactReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}/contacts`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
@@ -97,14 +96,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"email": "",
 						"address": ""
 					}
-				}).then(res => {
-					if (!res.ok) {
-						alert("Something Went Wrong")
-					}
 				});
+				if (!createContactReq) {
+					alert("Something Went Wrong")
+				}
 				const createContactJson = await createContactReq.json()
-				setStore({ ...agendas, contacts: createContactJson})
+				setStore({ ...agendas, contacts: createContactJson })
 			},
+			///////////////////////////////////////////////////////
 			getRandomNumber: () => {
 				return Math.floor(Math.random() * 100000)
 			},

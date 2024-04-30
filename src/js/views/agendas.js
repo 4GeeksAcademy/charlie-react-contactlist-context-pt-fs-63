@@ -1,6 +1,6 @@
 import React from "react";
 import { Context } from "../store/appContext";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const Agendas = () => {
@@ -28,10 +28,11 @@ const Agendas = () => {
     return (
         <div>
             Todas las agendas
+            {console.log(store.agendas)}
             <ul>
-                {store.agendas && store.agendas?.agendas.map((el, index) => {
+                {store.agendas?.map((el) => {
                     return (
-                        <li onClick={() => handleSelectSlug(el.slug)} key={index}>{el.slug}</li>
+                        <li onClick={() => handleSelectSlug(el.slug)} key={el.id}>{el.slug}</li>
                     )
                 })}
             </ul>
