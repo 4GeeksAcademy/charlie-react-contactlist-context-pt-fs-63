@@ -1,3 +1,6 @@
 /* 
     General Styles
 */
+.modal{
+    display: block;
+}
