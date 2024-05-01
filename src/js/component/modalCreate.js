@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 
 export const ModalCreate = (props) => {
 
-    const [inputBody, setInputBody] = useState({
+    const [inputBody, setInputBody] = useState(props.values || 
+        {
         name: "",
         email: "",
         phone: "",
@@ -21,7 +22,7 @@ export const ModalCreate = (props) => {
     }
 
     return (
-        <div className="modal" tabIndex="-2">
+        <div className="bg-light modal" tabIndex="-2">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">

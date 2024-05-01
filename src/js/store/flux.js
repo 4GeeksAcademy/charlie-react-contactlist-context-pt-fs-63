@@ -29,7 +29,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const agendasJson = await agendasReq.json(); // Parse the JSON response
 				setStore({ agendas: agendasJson.agendas }); // Set the store with the parsed JSON
 
-				// console.log(getStore());
 				return agendasJson
 			},
 			getSlugAgenda: async (slug) => {
@@ -40,7 +39,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				const slugJson = await slugReq.json()
 				setStore({ slug: slugJson })
-				//console.log(slugJson)
+
 				return slugJson
 			},
 			createSlugAgenda: async (slug) => {
@@ -96,7 +95,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					alert("Something Went Wrong")
 				}
 				const createContactJson = await createContactReq.json()
-				setStore({ ...getStore().agendas, contacts: createContactJson.contacts })
+				setStore({ ...getStore().contacts, contacts: createContactJson.contacts })
 				getActions().getContacts(slug)
 				return createContactJson
 			},
@@ -109,9 +108,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				if (!deleteContactReq.ok) {
 					alert("Something Went Wrong")
-				}
-				const deleteContactJson = await deleteContactReq.json()
-				setStore({ ...getStore().agendas, contacts: deleteContactJson.contacts })
+				} else console.log("Deleted Contact")
+
+				getActions().getContacts(slug)
+			},
+			updateContact: async (slug, id) => {
+				const updateContactReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}/contacts/${id}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json"
+					},
+				});
+				if (!updateContactReq.ok) {
+					alert("Something Went Wrong")
+				} else console.log("Updated Contact")
+
+				// const updateContactJson = await updateContactReq.json()
+				// setStore({ ...getStore().contacts, contacts: updateContactJson.contacts })
+				getActions().getContacts(slug)
 			},
 			///////////////////////////////////////////////////////
 			getRandomNumber: () => {

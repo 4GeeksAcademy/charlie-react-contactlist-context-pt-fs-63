@@ -4,3 +4,23 @@
 .modal{
     display: block;
 }
+li:hover {
+    background: rgb(136, 187, 178);
+    cursor: pointer;
+}
+
+.contact-buttons:hover{
+    background: white;
+}
+
+body {
+    padding-bottom: 120px;
+}
+
+.footer {
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
+}
