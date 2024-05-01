@@ -29,12 +29,11 @@ const Contact = () => {
     const handleSubmit = async (e, data) => {
         e.preventDefault()
         await actions.createContact(username, data)
-        closeModal()
+        setIsOpenCreate(false)
     };
-    console.log(store.contacts)
+    //console.log(store.contacts)
 
     return (
-        //CLOSEMODAL IS NOT DEFINED
         <div>
             {isOpen && <div>
                 <ModalDelete name={username} close={() => setIsOpen(false)} delete={() => handleDeleteAgenda(username)} />
@@ -43,7 +42,10 @@ const Contact = () => {
             <button onClick={() => setIsOpen(true)} className="btn btn-danger">Delete Agenda</button>
             <ul>
                 {store.contacts?.map(el => (
-                    <li key={el.id}>{el.name} {el.phone} {el.email} {el.address}</li>
+                    <div>
+                        <li key={el.id}>{el.name} {el.phone} {el.email} {el.address}</li>
+                        <button></button>
+                    </div>
                 ))}
             </ul>
             {isOpenCreate && <div>

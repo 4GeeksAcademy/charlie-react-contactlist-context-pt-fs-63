@@ -19,7 +19,6 @@ export const ModalCreate = (props) => {
             [name]: value
         }))
     }
-    //CLOSEMODAL IS NOTE DEFINED
 
     return (
         <div className="modal" tabIndex="-2">

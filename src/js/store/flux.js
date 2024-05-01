@@ -89,16 +89,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: {
 						"Content-Type": "application/json"
 					},
-					//IMPORTANT
+					//IMPORTANT TO FORMAT
 					body: JSON.stringify(body)
 				});
-				if (!createContactReq) {
+				if (!createContactReq.ok) {
 					alert("Something Went Wrong")
 				}
 				const createContactJson = await createContactReq.json()
 				setStore({ ...getStore().agendas, contacts: createContactJson.contacts })
 				getActions().getContacts(slug)
 				return createContactJson
+			},
+			deleteContact: async (slug, id) => {
+				const deleteContactReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}/contacts/${id}`, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json"
+					},
+				});
+				if (!deleteContactReq.ok) {
+					alert("Something Went Wrong")
+				}
+				const deleteContactJson = await deleteContactReq.json()
+				setStore({ ...getStore().agendas, contacts: deleteContactJson.contacts })
 			},
 			///////////////////////////////////////////////////////
 			getRandomNumber: () => {
