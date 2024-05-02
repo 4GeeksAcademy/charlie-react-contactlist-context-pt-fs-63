@@ -26,10 +26,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Content-Type": "application/json"
 					}
 				});
-				const agendasJson = await agendasReq.json(); // Parse the JSON response
-				setStore({ agendas: agendasJson.agendas }); // Set the store with the parsed JSON
-
-				return agendasJson
+				const agendasJson = await agendasReq.json()
+				setStore({ agendas: agendasJson.agendas })
 			},
 			getSlugAgenda: async (slug) => {
 				const slugReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}`, {
@@ -39,7 +37,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				const slugJson = await slugReq.json()
 				setStore({ slug: slugJson })
-
 				return slugJson
 			},
 			createSlugAgenda: async (slug) => {
@@ -51,11 +48,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				if (!createSlugReq) {
 					alert("Something Went Wrong")
+				} else {
+					const createSlugJson = await createSlugReq.json()
+					const updatedAgendas = [...getStore().agendas, createSlugJson]
+					setStore({ ...getStore(), agendas: updatedAgendas })
 				}
-				const createSlugJson = await createSlugReq.json()
-				setStore({ ...getStore().agendas, slug: createSlugJson })
-				getActions().getAllAgendas()
-				return createSlugJson
 			},
 			deleteSlugAgenda: async (slug) => {
 				const deleteSlugReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}`, {
@@ -66,8 +63,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				if (!deleteSlugReq.ok) {
 					alert("Something Went Wrong")
-				};
-				setStore({ ...getStore().agendas })
+				} else {
+					const updatedAgendas = getStore().agendas.filter((index) => index !== slug.id)
+					setStore({ ...getStore().agendas, agendas: updatedAgendas })
+				}
 			},
 			///////////////////////////////////////////////////////
 			getContacts: async (slug) => {
@@ -93,11 +92,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				if (!createContactReq.ok) {
 					alert("Something Went Wrong")
+				} else {
+					const createContactJson = await createContactReq.json()
+					const updatedContacts = [...getStore().contacts, createContactJson]
+					setStore({ ...getStore(), contacts: updatedContacts })
 				}
-				const createContactJson = await createContactReq.json()
-				setStore({ ...getStore().contacts, contacts: createContactJson.contacts })
-				getActions().getContacts(slug)
-				return createContactJson
 			},
 			deleteContact: async (slug, id) => {
 				const deleteContactReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}/contacts/${id}`, {
@@ -108,29 +107,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				if (!deleteContactReq.ok) {
 					alert("Something Went Wrong")
-				} else console.log("Deleted Contact")
-
-				getActions().getContacts(slug)
+				} else {
+					const updatedContacts = getStore().contacts.filter(el => el.id !== id)
+					setStore({ ...getStore().contacts, contacts: updatedContacts })
+				}
 			},
-			updateContact: async (slug, id) => {
+			updateContact: async (slug, id, body) => {
 				const updateContactReq = await fetch(`https://playground.4geeks.com/contact/agendas/${slug}/contacts/${id}`, {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json"
 					},
+					body: JSON.stringify(body)
 				});
 				if (!updateContactReq.ok) {
-					alert("Something Went Wrong")
-				} else console.log("Updated Contact")
+					alert("Something Went Wrong Updating Contact")
+				} else {
 
-				// const updateContactJson = await updateContactReq.json()
-				// setStore({ ...getStore().contacts, contacts: updateContactJson.contacts })
-				getActions().getContacts(slug)
+					const updateContactJson = await updateContactReq.json()
+					const contactIndex = getStore().contacts.findIndex(contact => contact.id === id)
+
+					if (contactIndex !== -1) {
+						const updatedContacts = [...getStore().contacts]
+						updatedContacts[contactIndex] = updateContactJson
+						setStore({ ...getStore(), contacts: updatedContacts })
+					}
+				}
 			},
 			///////////////////////////////////////////////////////
-			getRandomNumber: () => {
-				return Math.floor(Math.random() * 100000)
-			},
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();

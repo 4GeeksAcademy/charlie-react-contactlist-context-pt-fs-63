@@ -2,9 +2,9 @@ import React from "react";
 
 export const ModalDelete = (props) => {
     return (
-        <div className="modal bg-light" tabIndex="-1">
+        <div className="modal p-3" tabIndex="-1">
             <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
+                <div className="modal-content bg-light">
                     <div className="modal-header">
                         <h1 className="modal-title fs-5">Delete {props.name}'s Agenda?</h1>
                         <button onClick={props.close} type="button" className="btn-close" ></button>

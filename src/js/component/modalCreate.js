@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 export const ModalCreate = (props) => {
 
-    const [inputBody, setInputBody] = useState(props.values || 
-        {
+    const [inputBody, setInputBody] = useState(props.values ||
+    {
         name: "",
         email: "",
         phone: "",
@@ -22,11 +22,11 @@ export const ModalCreate = (props) => {
     }
 
     return (
-        <div className="bg-light modal" tabIndex="-2">
+        <div className="modal p-3" tabIndex="-1">
             <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
+                <div className="modal-content bg-light">
                     <div className="modal-header">
-                        <h1 className="modal-title fs-5">Add a New Contact</h1>
+                        <h1 className="modal-title fs-5">{props.title}</h1>
                         <button onClick={props.closeModal} type="button" className="btn-close" ></button>
                     </div>
                     <div className="modal-body">
@@ -47,10 +47,9 @@ export const ModalCreate = (props) => {
                                 <label className="form-label">Address</label>
                                 <input name="address" value={inputBody.address} onChange={handleChange} type="text" className="form-control"></input>
                             </div>
-                            <button type="submit" className="btn btn-secondary">Save</button>
+                            <button type="submit" className="btn btn-primary">Save</button>
                         </form>
                     </div>
-                    <Link to={"/"}>Or get back to contacts</Link>
                 </div>
             </div>
         </div>

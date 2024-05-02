@@ -11,6 +11,7 @@ const Agendas = () => {
     const handleEnter = (evt) => {
         if (evt.key === "Enter") {
             actions.createSlugAgenda(input)
+            
             setInput("")
         }
     }
@@ -22,9 +23,8 @@ const Agendas = () => {
 
 
     return (
-        <div className="d-flex flex-column text-center mx-auto col-md-7 col-4 ">
+        <div className="d-flex flex-column text-center mx-auto col-md-7 col-4 mb-5 pb-5">
             <h1 className="font-monospace fw-bold">Select or Create your Agenda</h1>
-            {console.log(store.agendas)}
             <ul className="list-group list-group-horizontal flex-wrap text-center">
                 {store.agendas?.map((el) => {
                     return (
@@ -32,9 +32,9 @@ const Agendas = () => {
                     )
                 })}
             </ul>
-            <div className="col-7 mx-auto d-flex mt-5 gap-2">
+            <div className="col-8 mx-auto d-flex mt-5 gap-2">
                 <input className="form-control" type="text" onKeyDown={handleEnter} onChange={e => setInput(e.target.value)} value={input}></input>
-                <button className="btn btn-primary w-50" onClick={() => actions.createSlugAgenda(input)}>Create Agenda</button>
+                <button style={{ width: 250 + "px" }} className="btn btn-primary" onClick={() => { actions.createSlugAgenda(input), setInput("") }}>Create Agenda</button>
             </div>
         </div>
     )

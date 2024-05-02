@@ -3,9 +3,9 @@ import React from "react";
 
 export const ModalDeleteContact = (props) => {
     return (
-        <div className="modal bg-light" tabIndex="-1">
+        <div className="modal p-3" tabIndex="-1">
             <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
+                <div className="modal-content bg-light">
                     <div className="modal-header">
                         <h1 className="modal-title fs-5">Delete this contact?</h1>
                         <button onClick={props.closeDeleteContact} type="button" className="btn-close" ></button>
